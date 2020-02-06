@@ -1,10 +1,12 @@
-const expres = require("express");
+const express = require("express");
 const mongoose = require('mongoose');
-const app = expres();
+const bodyParse = require("body-parser");
+const app = express();
 
-// 引入users
+// 引入users.js
 const users = require('./routes/api/users');
 
+// 链接MongoDB数据库 DB config
 const db = require('./config/keys').mongoURI;
 mongoose.connect(db, {useUnifiedTopology: true})
 .then(() => {
@@ -13,6 +15,11 @@ mongoose.connect(db, {useUnifiedTopology: true})
 .catch(err => {
     console.log(err);
 });
+
+// 使用body-parse中间件
+app.use(bodyParse.urlencoded({extended: false}));
+app.use(bodyParse.json());
+
 
 app.get("/", (req, res) => {
     res.send('hello wrold111');
