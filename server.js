@@ -6,10 +6,11 @@ const app = express();
 
 // 引入users.js
 const users = require('./routes/api/users');
+const profile = require('./routes/api/profiles');
 
 // 链接MongoDB数据库 DB config
 const db = require('./config/keys').mongoURI;
-mongoose.connect(db,{ useNewUrlParser: true })
+mongoose.connect(db,{ useNewUrlParser: true  })
 .then(() => {
     console.log('mongodo connnet');
 })
@@ -29,6 +30,7 @@ require("./config/passport")(passport);
 
 // 使用routes
 app.use("/api/users", users);
+app.use('/api/profile', profile);
 
 const port = process.env.PORT || 5000;
 
