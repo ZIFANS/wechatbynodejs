@@ -10,6 +10,15 @@ const routes = [
     name: 'index',
     component: Index
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login') // 懒加载
+  },
+  { path: '/register',
+    name: 'register',
+    component: () => import('../views/Register.vue')
+  },
 ]
 
 const router = new VueRouter({
