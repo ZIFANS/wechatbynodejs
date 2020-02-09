@@ -1,15 +1,20 @@
 <template>
-<div class="addressbook">
-    dfdf
-</div>
+    <div>
+        <Header
+                title='通讯录'
+                btn_icon='user-plus'>
+        </Header>
+
+    </div>
 </template>
 
 <script>
+    import Header from "../components/Header";
+
     export default {
-        name: "AddressBook"
-    }
+        name: "book",
+        components: {
+            Header
+        }
+    };
 </script>
-
-<style scoped>
-
-</style>

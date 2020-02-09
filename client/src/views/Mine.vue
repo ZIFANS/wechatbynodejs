@@ -1,15 +1,19 @@
 <template>
-<div class="mine">
-    df
-</div>
+    <div>
+        <Header
+                title='我的'>
+        </Header>
+        df
+    </div>
 </template>
 
 <script>
+    import Header from "../components/Header";
+
     export default {
-        name: "Mine"
-    }
+        name: "mine",
+        components: {
+            Header
+        }
+    };
 </script>
-
-<style scoped>
-
-</style>

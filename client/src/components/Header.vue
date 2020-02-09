@@ -21,10 +21,6 @@
                 type: Boolean,
                 default: false
             },
-            isRight: {           // isRight代表是否有右侧按钮
-                type: Boolean,
-                default: false
-            },
             btn_icon: String
         }
     };
