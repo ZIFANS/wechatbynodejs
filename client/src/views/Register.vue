@@ -44,11 +44,10 @@
 </template>
 
 <script>
-    import InputGroup from "../components/InputGroup";
-    import YButton from "../components/YButton";
-
+    import InputGroup from '../components/InputGroup'
+    import YButton from '../components/YButton'
     export default {
-        name: "register",
+        name: 'register',
         data() {
             return {
                 user: {
@@ -57,41 +56,41 @@
                     password: "",
                     password2: ""
                 }
-            };
-        },
-        components: {
-            InputGroup,
-            YButton
-        },
-        computed: {
-            isDisabled() {
-                if (
-                    this.user.name &&
-                    this.user.email &&
-                    this.user.password &&
-                    this.user.password2
-                )
-                    return false;
-                else return true;
             }
         },
         methods: {
+            // 点击注册后触发的方法
             registerClick(event) {
                 var reg = /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
                 if (!reg.test(this.user.email)) {
                     alert("请输入合法的邮箱地址！");
                     return;
                 }
+
+                // 判断两次密码是否一致。
                 if (this.user.password !== this.user.password2) {
                     alert("两次密码输入不一致！");
                     return;
                 }
+
                 this.$axios.post("/api/users/register", this.user).then(res => {
                     // 注册成功
                     alert("注册成功");
                     this.$router.push("/login");
                 });
             }
+        },
+        computed: {
+            isDisabled() {
+                if (this.user.name  &&  this.user.email && this.user.password && this.user.password2)
+                    return false;
+                else
+                    return true;
+            }
+        },
+        components: {
+            InputGroup,
+            YButton
         }
     };
 </script>

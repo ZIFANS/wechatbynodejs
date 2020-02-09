@@ -20,7 +20,7 @@
                 <YButton
                         :disabled='isDisabled'
                         @click="loginClick"
-                >登录</YButton>
+                >登录</YButton>  <!-- 登录写到里面的 -->
             </div>
         </div>
         <div class="footer_wrap">
@@ -30,45 +30,54 @@
 </template>
 
 <script>
-    import InputGroup from "../components/InputGroup";
-    import YButton from "../components/YButton";
-
+    import InputGroup from '../components/InputGroup'
+    import YButton from '../components/YButton'
     export default {
-        name: "login",
+        name: 'login',
         data() {
             return {
                 user: {
-                    email: "",
-                    password: ""
+                    email: '',
+                    password: ''
                 }
-            };
-        },
-        components: {
-            InputGroup,
-            YButton
-        },
-        computed: {
-            isDisabled() {
-                if (this.user.email && this.user.password) return false;
-                else return true;
             }
         },
         methods: {
+            // 登录之后 触发
             loginClick() {
+                // 正则验证邮箱，直接copy的。
                 var reg = /^([a-zA-Z0-9._-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
                 if (!reg.test(this.user.email)) {
                     alert("请输入合法的邮箱地址！");
                     return;
                 }
+
+                // 实现登录
                 this.$axios.post("/api/users/login", this.user).then(res => {
-                    // 登录成功
+                    // 登录成功后获得的是一个token
+                    // 解构token
                     const { token } = res.data;
+
+                    // 存储到localStorage中
                     localStorage.setItem("wxToken", token);
 
                     // 页面跳转
                     this.$router.push("/");
                 });
             }
+        },
+        computed: {
+            // isDisabled是用来判断，按钮样式是否能点击
+            isDisabled() {
+                if (this.user.email && this.user.password)
+                    return false;
+                else
+                    return true;
+            }
+        },
+        components: {
+            InputGroup,
+            YButton
         }
     };
 </script>
