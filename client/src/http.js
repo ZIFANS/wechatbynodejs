@@ -14,7 +14,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
     return response
 }, error => {
-    // token如果过期，错误提醒
+    // 错误提醒
     const { status } = error.response
     if (status == 401) {
         alert('token值无效，请重新登录')
