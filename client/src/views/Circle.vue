@@ -1,3 +1,4 @@
+<!-- Circle是朋友圈页面-->
 <template>
     <div class="circle">
         <Header

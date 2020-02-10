@@ -1,3 +1,4 @@
+<!-- publish.vue组件是发表朋友圈页面-->
 <template>
     <div class="publish">
         <div class="header">
@@ -59,6 +60,7 @@
                     this.$router.push("circle");
                 });
             },
+
             getImgs(imgs) {
                 imgs.forEach(file => {
                     this.uploadFile(file);
