@@ -43,6 +43,7 @@
             }
         },
         methods: {
+            // publish点击发表时候触发的事件
             publish() {
                 this.loading = true;
                 // 准备post数据

@@ -74,14 +74,19 @@
                 this.$axios("/api/profile/latest").then(res => {
                     this.loading = false;
                     this.cricleList = [...res.data];    //
-                    this.$refs.pullrefresh.$emit("pullrefresh.finishLoad");
+
+                    // 注册事件pullrefresh，解决重置问题。
+                    // 这里的refresh让子组件Scroll.vue触发
+                    this.$refs.pullrefresh.$emit("refresh");
                 });
             },
+            // pulldown触发的事件
             loadData() {
                 //下拉刷新重新初始化
                 this.page = 2;
                 this.getLatestData();
             },
+            // pullup触发的事件
             loadMore() {
                 this.getMoreData();
             },
@@ -94,14 +99,14 @@
                     const result = [...res.data];
                     if (result.length > 0) {
                         // 拿到结果数据进行遍历 push到列表数组中，并且page+1
-                        this.$refs.pullrefresh.$emit("infinitescroll.reInit");
+                        //this.$refs.pullrefresh.$emit("infinitescroll.reInit");
                         result.forEach(item => {
                             this.cricleList.push(item);
                         });
                         this.page++;
                     } else {
                         // 数组为空，没有更多数据，page不再递增
-                        this.$refs.pullrefresh.$emit("infinitescroll.loadedDone");
+                        this.$refs.pullrefresh.$emit("loadedDone");
                     }
                 });
             }

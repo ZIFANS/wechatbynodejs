@@ -5,16 +5,18 @@
             <div class="pulldown" v-show="dragTip.showLoding">
                 <div class="clear">
                     <div class="fl"><img width="16" src="../assets/scroll_load.gif"></div>
-                    <div class="fl">{{dragTip.text}}</div>
+                    <div class="fl">{{ dragTip.text }}</div>
                 </div>
             </div>
 
-            <slot></slot>
+            <slot></slot> <!-- Circle.vue组件中要展示的内容 -->
 
             <!-- 上拉加载 -->
             <div class="pullup">
                 <div class="clear" v-if="!isDone">
-                    <div class="fl"><img width="16" src="../assets/scroll_load.gif"></div>
+                    <div class="fl">
+                        <img width="16" src="../assets/scroll_load.gif">
+                    </div>
                     <div class="fl">加载中.....</div>
                 </div>
                 <div class="list-donetip" v-else>
@@ -27,7 +29,6 @@
 
 <script>
     import BScroll from "better-scroll";
-
     export default {
         name: "scroll",
         props: {
@@ -40,8 +41,9 @@
             return {
                 dragTip: {
                     text: "下拉刷新",
-                    showLoding: false
+                    showLoding: false   // 是否显示下拉刷新
                 },
+                scroll: { },
                 isDone: false
             };
         },
@@ -51,6 +53,7 @@
             }, 20);
         },
         methods: {
+            // 初始化
             _initScroll() {
                 if (!this.$refs.wrapper) {
                     return;
@@ -64,26 +67,30 @@
                 this.scroll.on("scroll", pos => {
                     //显示下拉刷新loading
                     this.dragTip.showLoding = true;
-
                     if (pos.y > 50) {
                         this.dragTip.text = "释放刷新";
                     }
                 });
+
                 // 下拉刷新时，松手时触发pulldown事件，并注册刷新结束事件
                 this.scroll.on("touchEnd", pos => {
                     if (pos.y > 50) {
                         this.dragTip.text = "刷新中...";
                         //重新初始化
-                        this.$on("pullrefresh.finishLoad", this.resetParams);
-                        this.$emit("pulldown", pos);
+                        //this.$on("pullrefresh.finishLoad", this.resetParams);
+
+                        // 注册下拉事件，让Circle.vue组件实现
+                        this.$emit("pulldown");
+                        this.$on("refresh", this.resetParams);
                     }
                 });
 
                 // 派发滚动到底部事件，用于上拉加载
                 this.scroll.on("scrollEnd", () => {
+                    //console.log(this.scroll.maxScrollY);
                     if (this.scroll.y <= this.scroll.maxScrollY + 50) {
                         //所有数据加载完毕后
-                        this.$on("infinitescroll.loadedDone", () => {
+                        this.$on("loadedDone", () => {
                             this.isDone = true;
                         });
                         //重新初始化
@@ -94,6 +101,7 @@
                     }
                 });
             },
+            // 重置，
             resetParams() {
                 this.isDone = false;
                 setTimeout(() => {
