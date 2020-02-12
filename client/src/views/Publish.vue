@@ -19,7 +19,7 @@
 
 <script>
     import Upload from "../components/Upload";
-    import jwt_decode from "jwt-decode";
+    import jwt_decode from "jwt-decode";        // 解析token 用的。
     import Loading from "../components/Loading";
 
     export default {
@@ -27,7 +27,7 @@
         data() {
             return {
                 text: "",
-                imgs: [],
+                imgs: [],       // 把图片路径的地址存到这
                 loading: false
             };
         },
@@ -45,6 +45,7 @@
         },
         methods: {
             // publish点击发表时候触发的事件
+            // 传到数据库中
             publish() {
                 this.loading = true;
                 // 准备post数据
@@ -60,12 +61,14 @@
                     this.$router.push("circle");
                 });
             },
-
+            // 实现来自Upload.vue组件的方法。
             getImgs(imgs) {
+                // 获取base64
                 imgs.forEach(file => {
                     this.uploadFile(file);
                 });
             },
+            // 上传文件
             uploadFile(file) {
                 let reader = new FileReader();
                 // 这里不能使用箭头函数，this指向问题 否则this.result获取不到

@@ -1,5 +1,6 @@
 <template>
     <div class="img_wrap">
+        <!-- 展示图片-->
         <div class="isImg"
              v-if="showfileData.length > 0"
              v-for="(file_img, index) in showfileData"
@@ -8,7 +9,8 @@
             <button
                     v-show="!loading"
                     class="remove"
-                    @click='removeImg(file_img)'>x</button>
+                    @click='removeImg(file_img)'>x
+            </button>
         </div>
         <div class="isImg img_upload" v-if="showfileData.length < 9">
             <button class="btn_upload">
@@ -37,12 +39,14 @@
             };
         },
         methods: {
+            // 添加图片
             addFile() {
                 let files = [...this.$refs.myFile.files];
                 if (this.showfileData.length + files.length > 9) {
                     alert("最多发表9张照片！");
                     return;
                 }
+                // 可能由多张图片，
                 files.forEach(file => {
                     this.allUploadFiles.push(file);
 
@@ -50,8 +54,10 @@
                     this.showfileData.push(objUrl);
                 });
 
+                // 注册事件，让调用方执行。
                 this.$emit("getImgs", this.allUploadFiles);
             },
+            // 获取文件URL
             getObjectUrl(file) {
                 // 获取文件url
                 let url = null;
@@ -62,6 +68,7 @@
                     url = window.webkitURL.createObjectURL(url);
                 return url;
             },
+            // 删除图片
             removeImg(file_img) {
                 // 删除
                 this.showfileData.forEach((file, index) => {
